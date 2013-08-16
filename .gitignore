@@ -1,0 +1,9 @@
+/.installed.cfg
+/.mr.developer.cfg
+/bin
+/etc
+/develop-eggs
+/parts
+/var/devpi
+/var/supervisor.sock
+/var/supervisord.pid

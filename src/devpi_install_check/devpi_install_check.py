@@ -29,7 +29,7 @@ def check_setuptools(port):
             if host not in value:
                 print "ERROR: The allow_hosts setting '%s' in the easy_install section of ~/.pydistutils.cfg doesn't contain '%s'." % (value, host)
                 failure = True
-    if not os.path.exists(path) and not config.has_option('easy_install', 'index_url') and not failure:
+    if not os.path.exists(path) or (not config.has_option('easy_install', 'index_url') and not failure):
         print "If you want to let setuptools use this devpi server by default, add the following section to ~/.pydistutils.cfg."
         print "[easy_install]"
         print "index_url = %s/[devpi user name]/[index name]/+simple/" % url
@@ -51,7 +51,7 @@ def check_pip(port):
             if not value.startswith(url):
                 print "ERROR: The index-url '%s' in the global section of ~/.pip/pip.conf doesn't start with '%s'." % (value, url)
                 failure = True
-    if not os.path.exists(path) and not config.has_option('global', 'index-url') and not failure:
+    if not os.path.exists(path) or (not config.has_option('global', 'index-url') and not failure):
         print "If you want to let pip use this devpi server by default, add the following section to ~/.pip/pip.conf."
         print "[global]"
         print "index-url = %s/[devpi user name]/[index name]/+simple/" % url
@@ -72,7 +72,7 @@ def check_buildout(port):
             if not value.startswith(url):
                 print "ERROR: The index '%s' in the buildout section of ~/.buildout/default.cfg doesn't start with '%s'." % (value, url)
                 failure = True
-    if not os.path.exists(path) and not config.has_option('buildout', 'index') and not failure:
+    if not os.path.exists(path) or (not config.has_option('buildout', 'index') and not failure):
         print "If you want to let pip use this devpi server by default, add the following section to ~/.buildout/default.cfg."
         print "[buildout]"
         print "index = %s/[devpi user name]/[index name]/+simple/" % url

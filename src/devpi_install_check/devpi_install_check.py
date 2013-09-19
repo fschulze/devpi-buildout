@@ -36,6 +36,7 @@ def check_setuptools(port):
         print "allow_hosts = %s" % host
     else:
         print "~/.pydistutils.cfg seems to be fine."
+    print
 
 
 def check_pip(port):
@@ -57,6 +58,7 @@ def check_pip(port):
         print "index-url = %s/[devpi user name]/[index name]/+simple/" % url
     else:
         print "~/.pip/pip.conf seems to be fine."
+    print
 
 
 def check_buildout(port):
@@ -78,6 +80,7 @@ def check_buildout(port):
         print "index = %s/[devpi user name]/[index name]/+simple/" % url
     else:
         print "~/.buildout/default.cfg seems to be fine."
+    print
 
 
 def check_launch_agent(base):
@@ -96,6 +99,7 @@ def check_launch_agent(base):
             print "  %s" % link
             return
         print "The launch agent link seems to be fine."
+        print
 
 
 def main():

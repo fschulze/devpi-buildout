@@ -6,7 +6,7 @@ It will run on ``http://localhost:8141``.
 
 On OS X you can symlink ``etc/devpi-server.plist`` into ``~/Library/LaunchAgents/`` with::
 
-  ln -s $(pwd)/etc/devpi-server.plist ~/Library/LaunchAgents
+  ln -s $(pwd)/etc/devpi-server.plist ~/Library/LaunchAgents/
 
 and then use::
 

@@ -10,10 +10,8 @@ def read_config(path):
     return config
 
 
-def check_setuptools(port):
+def check_setuptools(host, port, url):
     path = os.path.expanduser('~/.pydistutils.cfg')
-    url = 'http://localhost:%i' % port
-    host = 'localhost:%i' % port
     failure = False
     if not os.path.exists(path):
         print "~/.pydistutils.cfg doesn't exist."
@@ -39,9 +37,8 @@ def check_setuptools(port):
     print
 
 
-def check_pip(port):
+def check_pip(host, port, url):
     path = os.path.expanduser('~/.pip/pip.conf')
-    url = 'http://localhost:%i' % port
     failure = False
     if not os.path.exists(path):
         print "~/.pip/pip.conf doesn't exist."
@@ -52,6 +49,11 @@ def check_pip(port):
             if not value.startswith(url):
                 print "ERROR: The index-url '%s' in the global section of ~/.pip/pip.conf doesn't start with '%s'." % (value, url)
                 failure = True
+        if config.has_option('search', 'index'):
+            value = config.get('search', 'index')
+            if not value.startswith(url):
+                print "ERROR: The index '%s' in the search section of ~/.pip/pip.conf doesn't start with '%s'." % (value, url)
+                failure = True
     if not os.path.exists(path) or (not config.has_option('global', 'index-url') and not failure):
         print "If you want to let pip use this devpi server by default, add the following section to ~/.pip/pip.conf."
         print "[global]"
@@ -61,9 +63,8 @@ def check_pip(port):
     print
 
 
-def check_buildout(port):
+def check_buildout(host, port, url):
     path = os.path.expanduser('~/.buildout/default.cfg')
-    url = 'http://localhost:%i' % port
     failure = False
     if not os.path.exists(path):
         print "~/.buildout/default.cfg doesn't exist."
@@ -104,11 +105,13 @@ def check_launch_agent(base):
 
 def main():
     base = os.environ['BUILDOUT_BASE']
+    host = os.environ['DEVPI_HOST']
     port = int(os.environ['DEVPI_PORT'])
+    url = os.environ.get('DEVPI_URL', 'http://%s:%s' % (host, port))
     failure = False
-    failure = failure or check_setuptools(port)
-    failure = failure or check_pip(port)
-    failure = failure or check_buildout(port)
+    failure = failure or check_setuptools(host, port, url)
+    failure = failure or check_pip(host, port, url)
+    failure = failure or check_buildout(host, port, url)
     failure = failure or check_launch_agent(base)
     if failure:
         sys.exit(1)
